@@ -1,0 +1,84 @@
+
+import java.util.Scanner;
+
+public class delim {
+    private int capacity;
+    private int top;
+    private char arr[];
+    delim(int size){
+        capacity=size;
+        top=-1;
+        arr = new char[size];
+    }
+    public void push(char x){
+        if(isFull()){
+            System.out.println("Overflow error");
+            System.exit(1);
+        }
+        else{
+            arr[++top]=x;
+        }
+    }
+    public char pop(){
+        if(isEmpty()){
+            System.out.println("Underflow error");
+            System.exit(1);
+        }
+            return arr[top--];
+    }
+    public char peek(){
+        if(isEmpty())
+            System.out.println("Underflow Error");
+           return arr[top];
+    }
+    public boolean isFull(){
+       return top-1==capacity;
+       }
+    public boolean isEmpty(){
+        return top==-1;
+    }
+    public static void main(String[] args){
+        System.out.println("Enter the string");
+        Scanner in=new Scanner(System.in);
+        String inputted= in.next();
+        delim stack= new delim(inputted.length());
+        char[] character=inputted.toCharArray();
+        int i=0;
+        for( i=0; i<inputted.length();i++){
+            if(character[i]==')'|| character[i]=='}'|| character[i]==']'){
+                break;                                                        //finds the first closing delimiter
+            }
+           }
+        for(int j=0; j<i;j++){                                                //loops until the closing delimiter - to store all the opening delimiters in a stack
+            if(character[j]=='('|| character[j]=='{'|| character[j]=='['){
+                stack.push(character[j]);
+            }
+           }
+        for(int k=0;k<inputted.length();k++){
+        if(character[k]==')'|| character[k]=='}'|| character[k]==']'){
+                if (character[k]==')' && stack.peek()=='('){
+                    stack.pop();
+                   
+                }
+                else if (character[k]=='}'&& stack.peek()=='{'){
+                    stack.pop();
+                    }
+                else if (character[k]==']' && stack.peek()=='['){
+                    stack.pop();
+                    
+                }
+                else{
+                    System.out.println("No match");
+                    break;
+                }
+            }
+        
+        }
+        if (stack.isEmpty()){
+            System.out.println("All matched or no delimeters inserted");
+        }
+        else{
+            System.out.println("No match");
+        }
+    }
+}
